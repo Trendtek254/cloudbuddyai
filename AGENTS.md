@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Tutor answers go through the TutorProvider in src/lib/tutor.ts; swap `activeTutor` for a server-backed provider so the Tutor page stays unchanged and keys stay server-side.
+- Progress is stored in browser localStorage via src/lib/progress.ts (MVP, no accounts).
