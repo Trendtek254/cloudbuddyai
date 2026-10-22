@@ -26,12 +26,60 @@ const greetings: Record<LocalLanguage, string> = {
 
 // Words that carry no topic meaning on their own.
 const STOPWORDS = new Set([
-  "what", "who", "when", "where", "which", "why", "how", "does", "did", "can",
-  "could", "should", "would", "tell", "about", "explain", "describe", "give",
-  "the", "a", "an", "and", "or", "of", "in", "on", "to", "for", "with", "is",
-  "are", "was", "were", "it", "its", "that", "this", "there", "their", "you",
-  "your", "please", "thanks", "hello", "study", "buddy", "difference",
-  "between", "versus", "example", "examples", "topic", "azure", "cloud",
+  "what",
+  "who",
+  "when",
+  "where",
+  "which",
+  "why",
+  "how",
+  "does",
+  "did",
+  "can",
+  "could",
+  "should",
+  "would",
+  "tell",
+  "about",
+  "explain",
+  "describe",
+  "give",
+  "the",
+  "a",
+  "an",
+  "and",
+  "or",
+  "of",
+  "in",
+  "on",
+  "to",
+  "for",
+  "with",
+  "is",
+  "are",
+  "was",
+  "were",
+  "it",
+  "its",
+  "that",
+  "this",
+  "there",
+  "their",
+  "you",
+  "your",
+  "please",
+  "thanks",
+  "hello",
+  "study",
+  "buddy",
+  "difference",
+  "between",
+  "versus",
+  "example",
+  "examples",
+  "topic",
+  "azure",
+  "cloud",
 ]);
 
 // Common abbreviations and casual phrasing mapped onto the study notes.
@@ -45,15 +93,40 @@ const SYNONYMS: { pattern: RegExp; extra: string }[] = [
   { pattern: /\bcapex\b/, extra: "capital expenditure upfront" },
   { pattern: /\bopex\b/, extra: "operational expenditure running costs" },
   { pattern: /\bzones?\b/, extra: "regions availability zones" },
-  { pattern: /\bpricing\b|\bcosts?\b|\bexpensive\b|\bbilling\b/, extra: "cost management pricing calculator pay as you go" },
-  { pattern: /\bpermissions?\b|\baccess\b|\broles?\b|\bsign ?in\b|\blog ?in\b|\bpasswords?\b|\bid\b|\bidentity\b/, extra: "identity access authentication authorization multi factor" },
-  { pattern: /\bbackups?\b|\bredundanc\w*|\bstorage\b|\bfiles\b/, extra: "storage redundancy copies" },
-  { pattern: /\block(s|ing)?\b|\btags?\b|\bpolic(y|ies)\b|\brules\b|\bcompliance\b|\bgovernance\b/, extra: "policies locks tags governance" },
-  { pattern: /\bdelet\w*|\bprevent\w*|\bprotect\w*|\baccident\w*|\bstop\b/, extra: "locks prevent accidental deletion" },
-  { pattern: /\bpay\b|\bpayment|\bspending\b|\bbudget\w*|\bcharge/, extra: "cost management pricing calculator pay as you go" },
-  { pattern: /\bmonitor\w*|\bdashboards?\b|\bportal\b|\bcli\b|\bcommand line\b|\btemplates?\b/, extra: "monitoring management tools portal" },
+  {
+    pattern: /\bpricing\b|\bcosts?\b|\bexpensive\b|\bbilling\b/,
+    extra: "cost management pricing calculator pay as you go",
+  },
+  {
+    pattern:
+      /\bpermissions?\b|\baccess\b|\broles?\b|\bsign ?in\b|\blog ?in\b|\bpasswords?\b|\bid\b|\bidentity\b/,
+    extra: "identity access authentication authorization multi factor",
+  },
+  {
+    pattern: /\bbackups?\b|\bredundanc\w*|\bstorage\b|\bfiles\b/,
+    extra: "storage redundancy copies",
+  },
+  {
+    pattern: /\block(s|ing)?\b|\btags?\b|\bpolic(y|ies)\b|\brules\b|\bcompliance\b|\bgovernance\b/,
+    extra: "policies locks tags governance",
+  },
+  {
+    pattern: /\bdelet\w*|\bprevent\w*|\bprotect\w*|\baccident\w*|\bstop\b/,
+    extra: "locks prevent accidental deletion",
+  },
+  {
+    pattern: /\bpay\b|\bpayment|\bspending\b|\bbudget\w*|\bcharge/,
+    extra: "cost management pricing calculator pay as you go",
+  },
+  {
+    pattern: /\bmonitor\w*|\bdashboards?\b|\bportal\b|\bcli\b|\bcommand line\b|\btemplates?\b/,
+    extra: "monitoring management tools portal",
+  },
   { pattern: /\bhybrid\b|\bpublic\b|\bprivate\b/, extra: "public private hybrid cloud models" },
-  { pattern: /\bsecurity\b|\bresponsible\b|\bresponsibilit\w*/, extra: "shared responsibility model security" },
+  {
+    pattern: /\bsecurity\b|\bresponsible\b|\bresponsibilit\w*/,
+    extra: "shared responsibility model security",
+  },
 ];
 
 /** Find the study-note topic that best matches a question, or null. */
@@ -62,9 +135,7 @@ export function findTopic(q: string): Topic | null {
   let text = lower;
   for (const { pattern, extra } of SYNONYMS) if (pattern.test(lower)) text += ` ${extra}`;
 
-  const words = text
-    .split(/\W+/)
-    .filter((w) => w.length > 2 && !STOPWORDS.has(w));
+  const words = text.split(/\W+/).filter((w) => w.length > 2 && !STOPWORDS.has(w));
   if (words.length === 0) return null;
 
   let best: Topic | null = null;
