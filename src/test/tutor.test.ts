@@ -4,24 +4,24 @@ import { findTopic, offlineTutor } from "@/lib/tutor";
 describe("offline tutor topic matching", () => {
   it("matches plain questions to the right topic", async () => {
     expect((await findTopicAsync("What is IaaS vs SaaS?"))?.id).toBe("iaas-paas-saas");
-    expect((await findTopicAsync("Explain availability zones"))?.id).toBe("regions");
+    expect((await findTopicAsync("Explain availability zones"))?.id).toBe("availability-zones");
     expect((await findTopicAsync("What is shared responsibility?"))?.id).toBe(
       "shared-responsibility",
     );
   });
 
   it("matches abbreviations like MFA and VM to the right topics", async () => {
-    expect((await findTopicAsync("What is MFA?"))?.id).toBe("identity");
-    expect((await findTopicAsync("Tell me about virtual machines"))?.id).toBe("compute");
+    expect((await findTopicAsync("What is MFA?"))?.id).toBe("identity-access");
+    expect((await findTopicAsync("Tell me about virtual machines"))?.id).toBe("compute-services");
   });
 
   it("matches paraphrases of the study notes", async () => {
     expect(
       (await findTopicAsync("How do I stop someone deleting a resource by accident?"))?.id,
-    ).toBe("policy");
+    ).toBe("azure-policy-locks-tags");
     expect(
       (await findTopicAsync("How can I check what I will pay each month before building?"))?.id,
-    ).toBe("cost-management");
+    ).toBe("azure-cost-management");
   });
 
   it("returns null for unrelated questions so the tutor suggests real topics", async () => {
@@ -30,15 +30,15 @@ describe("offline tutor topic matching", () => {
       question: "What is the best pizza in Nairobi?",
       mode: "simple",
     });
-    expect(reply).toContain("I don't have notes");
-    expect(reply).toContain("Identity and access"); // suggests actual topic titles
+    expect(reply).toContain("I couldn't confidently match");
+    expect(reply).toContain("Microsoft Entra ID, authentication and authorization"); // suggests actual topic titles
   });
 
   it("answers include the topic title, an example and related topics", async () => {
     const reply = await offlineTutor.ask({ question: "What is MFA?", mode: "african" });
-    expect(reply).toContain("Identity and access");
+    expect(reply).toContain("Microsoft Entra ID, authentication and authorization");
     expect(reply).toContain("Real-life example:");
-    expect(reply).toContain("Related topics");
+    expect(reply).toContain("You can also explore:");
   });
 });
 

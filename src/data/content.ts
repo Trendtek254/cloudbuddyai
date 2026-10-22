@@ -1,4 +1,3 @@
-
 export type DomainId = "cloud" | "architecture" | "governance";
 
 export const STUDY_GUIDE_URL =
@@ -91,7 +90,8 @@ export const topics: Topic[] = [
       "Scalability is the ability to handle changing workloads; availability is about keeping a service accessible.",
       "Cloud services offer capabilities, but correct architecture and configuration are still necessary.",
     ],
-    checkQuestion: "A website automatically adds capacity during a traffic spike. Which benefit is demonstrated?",
+    checkQuestion:
+      "A website automatically adds capacity during a traffic spike. Which benefit is demonstrated?",
     checkAnswer:
       "Elasticity: capacity adjusts to changing demand. This is also an example of scaling.",
   },
@@ -120,7 +120,8 @@ export const topics: Topic[] = [
       "Moving to the cloud does not transfer every security responsibility to Microsoft.",
       "Customer responsibility does not remain identical across IaaS, PaaS and SaaS.",
     ],
-    checkQuestion: "In a cloud service, who is responsible for deciding which users can access customer data?",
+    checkQuestion:
+      "In a cloud service, who is responsible for deciding which users can access customer data?",
     checkAnswer:
       "The customer is responsible for appropriately managing user access, although the provider supplies tools and secures the underlying infrastructure.",
   },
@@ -128,12 +129,7 @@ export const topics: Topic[] = [
     id: "cloud-models",
     domain: "cloud",
     title: "Public, private and hybrid cloud",
-    aliases: [
-      "public cloud",
-      "private cloud",
-      "hybrid cloud",
-      "cloud deployment models",
-    ],
+    aliases: ["public cloud", "private cloud", "hybrid cloud", "cloud deployment models"],
     simple:
       "Public cloud uses cloud infrastructure offered by a provider to multiple customers. Private cloud infrastructure is dedicated to one organization. Hybrid cloud combines private infrastructure with public cloud services.",
     example:
@@ -148,7 +144,8 @@ export const topics: Topic[] = [
       "Public cloud does not mean that every customer's data is publicly visible.",
       "Hybrid cloud is not simply using two public cloud providers; it commonly combines public cloud with private infrastructure.",
     ],
-    checkQuestion: "An organization uses its own private environment and Azure public cloud together. Which model is this?",
+    checkQuestion:
+      "An organization uses its own private environment and Azure public cloud together. Which model is this?",
     checkAnswer: "Hybrid cloud.",
   },
   {
@@ -178,7 +175,8 @@ export const topics: Topic[] = [
       "Pay-as-you-go does not mean every cloud service is free when idle; some resources can incur charges while provisioned.",
       "Cloud computing can involve both capital and operational expenditure depending on the organization and solution.",
     ],
-    checkQuestion: "A company pays according to its cloud resource usage. Which pricing idea does this illustrate?",
+    checkQuestion:
+      "A company pays according to its cloud resource usage. Which pricing idea does this illustrate?",
     checkAnswer: "Consumption-based, or pay-as-you-go, pricing.",
   },
   {
@@ -208,7 +206,8 @@ export const topics: Topic[] = [
       "IaaS is not the same as SaaS: one provides infrastructure, while the other provides usable software.",
       "PaaS does not mean the provider automatically builds the customer's application.",
     ],
-    checkQuestion: "Which service model is most suitable when a customer wants to use a finished email application?",
+    checkQuestion:
+      "Which service model is most suitable when a customer wants to use a finished email application?",
     checkAnswer: "SaaS, or Software as a Service.",
   },
   {
@@ -294,7 +293,8 @@ export const topics: Topic[] = [
       "Availability zones are not the same as separate Azure regions.",
       "A service deployed in one zone does not automatically become zone-resilient.",
     ],
-    checkQuestion: "Which is designed to isolate workloads across separate physical locations within a region?",
+    checkQuestion:
+      "Which is designed to isolate workloads across separate physical locations within a region?",
     checkAnswer: "Availability zones.",
   },
   {
@@ -360,20 +360,15 @@ export const topics: Topic[] = [
       "Virtual Machine Scale Sets and availability sets have different purposes.",
       "Functions are not the only form of serverless computing.",
     ],
-    checkQuestion: "Which compute option is designed to run code in response to events without directly managing servers?",
+    checkQuestion:
+      "Which compute option is designed to run code in response to events without directly managing servers?",
     checkAnswer: "A serverless function, such as Azure Functions.",
   },
   {
     id: "app-hosting",
     domain: "architecture",
     title: "Application hosting options",
-    aliases: [
-      "app service",
-      "web apps",
-      "web hosting",
-      "azure app service",
-      "host an application",
-    ],
+    aliases: ["app service", "web apps", "web hosting", "azure app service", "host an application"],
     simple:
       "Azure offers different ways to host applications. Azure App Service provides a managed platform for web apps and APIs, while virtual machines and container services offer different levels of control and management.",
     example:
@@ -426,7 +421,8 @@ export const topics: Topic[] = [
       "A private endpoint does not automatically guarantee that all public access is disabled; service networking must be configured appropriately.",
       "A subnet is part of a virtual network, not a separate Azure region.",
     ],
-    checkQuestion: "Which option provides private connectivity to a supported Azure service using a private IP in a virtual network?",
+    checkQuestion:
+      "Which option provides private connectivity to a supported Azure service using a private IP in a virtual network?",
     checkAnswer: "A private endpoint.",
   },
   {
@@ -461,7 +457,8 @@ export const topics: Topic[] = [
       "Storage services have different access patterns and capabilities.",
       "Choosing storage requires considering performance, access, redundancy, security and cost.",
     ],
-    checkQuestion: "Which Azure Storage service is designed for object data such as images and documents?",
+    checkQuestion:
+      "Which Azure Storage service is designed for object data such as images and documents?",
     checkAnswer: "Azure Blob Storage.",
   },
   {
@@ -497,7 +494,8 @@ export const topics: Topic[] = [
       "The archive tier is not immediately readable like an online access tier.",
       "Geo-replication does not automatically mean an application can fail over without configuration.",
     ],
-    checkQuestion: "Which redundancy option is designed to replicate data across availability zones in a region?",
+    checkQuestion:
+      "Which redundancy option is designed to replicate data across availability zones in a region?",
     checkAnswer: "Zone-redundant storage (ZRS).",
   },
   {
@@ -530,7 +528,8 @@ export const topics: Topic[] = [
       "Azure Data Box is useful for certain large-scale transfers but is not required for every migration.",
       "Storage Explorer is a graphical tool, while AzCopy is command-line based.",
     ],
-    checkQuestion: "Which tool is specifically designed to help assess and migrate workloads to Azure?",
+    checkQuestion:
+      "Which tool is specifically designed to help assess and migrate workloads to Azure?",
     checkAnswer: "Azure Migrate.",
   },
   {
@@ -572,7 +571,8 @@ export const topics: Topic[] = [
       "MFA does not simply mean entering two passwords.",
       "Microsoft Entra ID and Microsoft Entra Domain Services provide different identity capabilities.",
     ],
-    checkQuestion: "A system checks whether a user is allowed to delete a file. Is this authentication or authorization?",
+    checkQuestion:
+      "A system checks whether a user is allowed to delete a file. Is this authentication or authorization?",
     checkAnswer: "Authorization.",
   },
   {
@@ -633,7 +633,8 @@ export const topics: Topic[] = [
       "Defense in depth is a layered approach, not one individual product.",
     ],
     checkQuestion: "What is the main idea of defense in depth?",
-    checkAnswer: "Use multiple layers of security controls so that one failed control does not leave everything unprotected.",
+    checkAnswer:
+      "Use multiple layers of security controls so that one failed control does not leave everything unprotected.",
   },
   {
     id: "defender-for-cloud",
@@ -659,7 +660,8 @@ export const topics: Topic[] = [
       "Defender for Cloud is not identical to Azure Advisor, which provides broader recommendations across several areas.",
       "Enabling a security tool does not remove the need for secure configuration and responsible access management.",
     ],
-    checkQuestion: "Which service helps assess cloud security posture and protect supported workloads?",
+    checkQuestion:
+      "Which service helps assess cloud security posture and protect supported workloads?",
     checkAnswer: "Microsoft Defender for Cloud.",
   },
 
@@ -940,7 +942,8 @@ export const topics: Topic[] = [
       "Service Health is not the same as Azure Monitor's application and resource monitoring capabilities.",
       "A Service Health notice does not necessarily mean every resource or application is affected.",
     ],
-    checkQuestion: "Which service helps identify Azure service incidents and planned maintenance relevant to your environment?",
+    checkQuestion:
+      "Which service helps identify Azure service incidents and planned maintenance relevant to your environment?",
     checkAnswer: "Azure Service Health.",
   },
   {
@@ -968,7 +971,165 @@ export const topics: Topic[] = [
       "All three tools are not interchangeable just because they provide information about Azure.",
       "Advisor provides recommendations; it is not primarily a live incident-status dashboard.",
     ],
-    checkQuestion: "An administrator wants to know whether Microsoft has reported an Azure service incident affecting their environment. Which tool should they check?",
+    checkQuestion:
+      "An administrator wants to know whether Microsoft has reported an Azure service incident affecting their environment. Which tool should they check?",
     checkAnswer: "Azure Service Health.",
+  },
+
+  // Supplemental AZ-900 coverage: scenario-based learning
+
+  {
+    id: "azure-datacenters",
+    domain: "architecture",
+    title: "Azure Datacenters",
+    simple:
+      "A datacenter is a physical facility containing servers, networking equipment, power systems, and cooling systems. An Azure region is a geographic area containing one or more datacenters. Availability zones are physically separate locations within a supported region.",
+    example:
+      "A company deploys an application in an Azure region. If it needs protection against a problem affecting one datacenter location, it can consider deploying supported resources across availability zones.",
+    aliases: [
+      "physical datacenter",
+      "data centre",
+      "azure physical infrastructure",
+      "region vs datacenter",
+      "datacenter vs availability zone",
+    ],
+    keyPoints: [
+      "Datacenters contain physical computing infrastructure.",
+      "An Azure region is a geographic area with one or more datacenters.",
+      "Availability zones are physically separate locations within supported regions.",
+      "Not every Azure service or region supports availability zones.",
+    ],
+    commonConfusions: [
+      "A region and a datacenter are not the same thing.",
+      "Availability zones are not the same as region pairs.",
+      "Customers generally select Azure regions, not individual physical datacenters.",
+    ],
+    checkQuestion: "What is the difference between an Azure region and an availability zone?",
+    checkAnswer:
+      "A region is a geographic area containing one or more datacenters. An availability zone is a physically separate location within a supported region.",
+  },
+  {
+    id: "cloud-model-use-cases",
+    domain: "cloud",
+    title: "Cloud Deployment Models: Use Cases",
+    simple:
+      "Public cloud uses cloud infrastructure offered to customers by a provider. Private cloud provides a dedicated cloud environment for an organization. Hybrid cloud combines on-premises infrastructure or a private environment with public cloud services.",
+    example:
+      "A startup that wants to deploy quickly may choose public cloud. An organization needing a dedicated environment may consider private cloud. A hospital that keeps some systems on-premises while using Azure for other workloads may use a hybrid approach.",
+    aliases: [
+      "public private hybrid scenarios",
+      "deployment model examples",
+      "which cloud model",
+      "cloud deployment scenarios",
+    ],
+    keyPoints: [
+      "Public cloud can reduce the need to purchase and maintain physical infrastructure.",
+      "Private cloud can provide greater environmental control, but still requires management.",
+      "Hybrid cloud connects different environments so they can work together.",
+      "Choose a model based on control, existing systems, requirements, and business needs.",
+    ],
+    commonConfusions: [
+      "Private cloud does not automatically guarantee compliance or security.",
+      "Hybrid cloud is not simply using two public cloud providers.",
+      "Private cloud can be hosted by an organization or by a third party.",
+    ],
+    checkQuestion:
+      "An organization must keep some systems on-premises but wants to use Azure for other workloads. Which deployment model fits?",
+    checkAnswer:
+      "Hybrid cloud, because it combines on-premises infrastructure with public cloud services.",
+  },
+  {
+    id: "cloud-service-model-use-cases",
+    domain: "cloud",
+    title: "IaaS, PaaS, and SaaS: Use Cases",
+    simple:
+      "IaaS provides infrastructure such as virtual machines. PaaS provides a platform for building and deploying applications without managing all the underlying infrastructure. SaaS provides a ready-to-use software application.",
+    example:
+      "Choose IaaS when you need control over a virtual machine's operating system. Choose PaaS when you want to deploy your application without managing the underlying server operating system. Choose SaaS when you simply want to use a finished application.",
+    aliases: [
+      "iaas paas saas scenarios",
+      "service model examples",
+      "choose a cloud service model",
+      "infrastructure platform software as a service",
+    ],
+    keyPoints: [
+      "IaaS: more control over infrastructure and operating systems.",
+      "PaaS: focus on building and deploying applications.",
+      "SaaS: use a provider-managed application.",
+      "The provider's responsibilities increase as you move from IaaS toward SaaS.",
+    ],
+    commonConfusions: [
+      "IaaS does not mean you own the provider's physical servers.",
+      "PaaS does not mean the customer has no responsibilities.",
+      "SaaS is a complete application, not just a virtual machine.",
+    ],
+    checkQuestion:
+      "A developer wants to deploy code without managing the operating system of the underlying server. Which service model is the best fit?",
+    checkAnswer:
+      "PaaS, because the provider manages the underlying platform while the developer focuses on the application.",
+  },
+  {
+    id: "azure-vm-options",
+    domain: "architecture",
+    title: "Azure Virtual Machines and VM Options",
+    simple:
+      "An Azure virtual machine is a software-based computer running in Azure. You select an operating system image and a VM size, and configure resources such as disks and networking. Scale sets help manage groups of similar VMs, availability sets help improve VM availability, and Azure Virtual Desktop delivers virtual desktops and applications.",
+    example:
+      "A company running a legacy application that needs a particular operating system can host it on an Azure VM. If it needs many similar VM instances, it can consider a Virtual Machine Scale Set.",
+    aliases: [
+      "vm size",
+      "virtual machine resources",
+      "vm scale sets",
+      "availability sets",
+      "azure virtual desktop",
+      "vm images disks networking",
+    ],
+    keyPoints: [
+      "VM size determines resources such as CPU and memory.",
+      "An image supplies the operating system and may include other software.",
+      "VMs use disks for storage and networking resources to communicate.",
+      "Virtual Machine Scale Sets manage groups of similar VM instances and support scaling.",
+      "Availability sets distribute VMs across fault and update domains.",
+      "Azure Virtual Desktop provides virtual desktops and remote applications.",
+    ],
+    commonConfusions: [
+      "A VM Scale Set is for managing groups of VM instances, not storing files.",
+      "Availability sets and availability zones are different availability options.",
+      "Azure Virtual Desktop is for virtual desktops and applications, not a tool for scaling web servers.",
+    ],
+    checkQuestion:
+      "Which Azure option helps you deploy and manage a group of similar virtual machines that can scale?",
+    checkAnswer: "Azure Virtual Machine Scale Sets.",
+  },
+  {
+    id: "azure-storage-account-options",
+    domain: "architecture",
+    title: "Azure Storage Account Options",
+    simple:
+      "An Azure Storage account provides a namespace and endpoints for supported Azure Storage services. When creating one, you consider the account type, performance options, redundancy, and the storage services or features your workload needs.",
+    example:
+      "An application storing images and documents may use Blob Storage through a Storage account. The organization then selects suitable performance and redundancy options based on its requirements.",
+    aliases: [
+      "storage account type",
+      "general purpose v2",
+      "standard vs premium storage",
+      "storage account configuration",
+      "azure storage redundancy options",
+    ],
+    keyPoints: [
+      "A Storage account provides endpoints for accessing supported storage services.",
+      "General-purpose v2 is a common account type for many Azure Storage workloads.",
+      "Standard and Premium represent different performance and workload options where supported.",
+      "Redundancy options determine how data copies are maintained.",
+      "Available features depend on the account configuration, region, and service.",
+    ],
+    commonConfusions: [
+      "Hot, Cool, Cold, and Archive are Blob access tiers, not Storage account types.",
+      "LRS, ZRS, GRS, and GZRS are redundancy options, not access tiers.",
+      "Not every account configuration supports every storage feature or redundancy option.",
+    ],
+    checkQuestion: "Are Hot, Cool, Cold, and Archive Storage account types or Blob access tiers?",
+    checkAnswer:
+      "They are Blob access tiers, which help describe how frequently data is accessed and the associated storage-cost trade-offs.",
   },
 ];

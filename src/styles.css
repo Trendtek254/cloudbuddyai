@@ -92,7 +92,12 @@
   --border: oklch(0.9 0.02 225);
   --input: oklch(0.9 0.02 225);
   --ring: oklch(0.66 0.12 190);
-  --gradient-hero: linear-gradient(135deg, oklch(0.28 0.11 260), oklch(0.42 0.11 220) 60%, oklch(0.6 0.12 190));
+  --gradient-hero: linear-gradient(
+    135deg,
+    oklch(0.28 0.11 260),
+    oklch(0.42 0.11 220) 60%,
+    oklch(0.6 0.12 190)
+  );
   --shadow-card: 0 10px 30px -14px oklch(0.32 0.11 258 / 0.28);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -155,5 +160,9 @@
   }
 }
 
-@utility bg-hero { background-image: var(--gradient-hero); }
-@utility shadow-card { box-shadow: var(--shadow-card); }
+@utility bg-hero {
+  background-image: var(--gradient-hero);
+}
+@utility shadow-card {
+  box-shadow: var(--shadow-card);
+}

@@ -1,4 +1,3 @@
-
 import { topics, type Topic } from "@/data/content";
 
 export type TutorMode = "simple" | "african" | "local";
@@ -23,18 +22,77 @@ const greetings: Record<LocalLanguage, string> = {
 };
 
 const STOPWORDS = new Set([
-  "what", "who", "when", "where", "which", "why", "how",
-  "does", "did", "can", "could", "should", "would",
-  "tell", "about", "explain", "describe", "give",
-  "the", "a", "an", "and", "or", "of", "in", "on",
-  "to", "for", "with", "is", "are", "was", "were",
-  "it", "its", "that", "this", "there", "their",
-  "you", "your", "please", "thanks", "hello",
-  "study", "buddy", "topic", "azure", "cloud",
-  "me", "i", "my", "we", "our", "be", "as", "at",
-  "do", "if", "than", "then", "also", "really",
-  "work", "works", "working", "mean", "means",
-  "explain", "understand", "learn",
+  "what",
+  "who",
+  "when",
+  "where",
+  "which",
+  "why",
+  "how",
+  "does",
+  "did",
+  "can",
+  "could",
+  "should",
+  "would",
+  "tell",
+  "about",
+  "explain",
+  "describe",
+  "give",
+  "the",
+  "a",
+  "an",
+  "and",
+  "or",
+  "of",
+  "in",
+  "on",
+  "to",
+  "for",
+  "with",
+  "is",
+  "are",
+  "was",
+  "were",
+  "it",
+  "its",
+  "that",
+  "this",
+  "there",
+  "their",
+  "you",
+  "your",
+  "please",
+  "thanks",
+  "hello",
+  "study",
+  "buddy",
+  "topic",
+  "azure",
+  "cloud",
+  "me",
+  "i",
+  "my",
+  "we",
+  "our",
+  "be",
+  "as",
+  "at",
+  "do",
+  "if",
+  "than",
+  "then",
+  "also",
+  "really",
+  "work",
+  "works",
+  "working",
+  "mean",
+  "means",
+  "explain",
+  "understand",
+  "learn",
 ]);
 
 // Expand common abbreviations and everyday wording into study terms.
@@ -51,13 +109,32 @@ const SYNONYMS: { pattern: RegExp; extra: string }[] = [
   { pattern: /\bsso\b/, extra: "single sign on identity" },
   { pattern: /\bvm\b/, extra: "virtual machine compute" },
   { pattern: /\bvnet\b/, extra: "virtual network networking" },
-  { pattern: /\biac\b|\binfrastructure as code\b/, extra: "arm templates bicep repeatable deployment" },
+  {
+    pattern: /\biac\b|\binfrastructure as code\b/,
+    extra: "arm templates bicep repeatable deployment",
+  },
   { pattern: /\bpay as you go\b|\bpayg\b/, extra: "consumption based pricing" },
+  {
+    pattern:
+      /\bwhat i will pay\b|\bpay each month\b|\bbefore building\b|\bestimate costs\b|\bpricing calculator\b/,
+    extra:
+      "Azure cost management Azure Pricing Calculator budget spending estimate before deployment",
+  },
   { pattern: /\bdata copies\b|\breplication\b/, extra: "storage redundancy" },
-  { pattern: /\bprevent deletion\b|\baccidental deletion\b/, extra: "resource locks CanNotDelete" },
+  {
+    pattern: /\bprevent deletion\b|\baccidental deletion\b|\bdeleting\b|\bdelete\b|\bdeletion\b/,
+    extra: "resource locks Azure Policy CanNotDelete protect resources",
+  },
+  {
+    pattern: /\bby accident\b|\baccidentally\b|\bstop someone\b/,
+    extra: "resource locks CanNotDelete prevent accidental deletion",
+  },
   { pattern: /\bcommand line\b/, extra: "azure cli powershell cloud shell" },
   { pattern: /\boutage\b|\bplanned maintenance\b/, extra: "azure service health incidents" },
-  { pattern: /\bslow app\b|\bapplication performance\b/, extra: "azure monitor application insights" },
+  {
+    pattern: /\bslow app\b|\bapplication performance\b/,
+    extra: "azure monitor application insights",
+  },
   { pattern: /\bsecurity recommendations\b/, extra: "defender for cloud security posture" },
 ];
 
@@ -82,16 +159,18 @@ function expandQuestion(question: string): string {
 }
 
 function getTopicText(topic: Topic): string {
-  return normalize([
-    topic.title,
-    topic.simple,
-    topic.example,
-    ...(topic.aliases ?? []),
-    ...(topic.keyPoints ?? []),
-    ...(topic.commonConfusions ?? []),
-    topic.checkQuestion ?? "",
-    topic.checkAnswer ?? "",
-  ].join(" "));
+  return normalize(
+    [
+      topic.title,
+      topic.simple,
+      topic.example,
+      ...(topic.aliases ?? []),
+      ...(topic.keyPoints ?? []),
+      ...(topic.commonConfusions ?? []),
+      topic.checkQuestion ?? "",
+      topic.checkAnswer ?? "",
+    ].join(" "),
+  );
 }
 
 /** Find the study-note topic that best matches a question, or null. */
@@ -101,9 +180,7 @@ export function findTopic(question: string): Topic | null {
 
   if (!original) return null;
 
-  const words = expanded
-    .split(" ")
-    .filter((word) => word.length > 2 && !STOPWORDS.has(word));
+  const words = expanded.split(" ").filter((word) => word.length > 2 && !STOPWORDS.has(word));
 
   let best: Topic | null = null;
   let bestScore = 0;
@@ -123,15 +200,9 @@ export function findTopic(question: string): Topic | null {
 
       if (original === alias) {
         score += 10;
-      } else if (
-        alias.length > 3 &&
-        (` ${original} `).includes(` ${alias} `)
-      ) {
+      } else if (alias.length > 3 && ` ${original} `.includes(` ${alias} `)) {
         score += 7;
-      } else if (
-        alias.length > 3 &&
-        (` ${expanded} `).includes(` ${alias} `)
-      ) {
+      } else if (alias.length > 3 && ` ${expanded} `.includes(` ${alias} `)) {
         score += 5;
       }
     }
@@ -182,9 +253,7 @@ function buildAnswer(topic: Topic, mode: TutorMode): string {
 
   if (topic.commonConfusions?.length) {
     answer += "\n\n**Common exam traps:**";
-    answer += topic.commonConfusions
-      .map((point) => `\n- ${point}`)
-      .join("");
+    answer += topic.commonConfusions.map((point) => `\n- ${point}`).join("");
   }
 
   if (topic.checkQuestion) {
@@ -205,9 +274,7 @@ function buildAnswer(topic: Topic, mode: TutorMode): string {
 }
 
 function fallbackAnswer(): string {
-  const suggestions = topics
-    .map((topic) => `- ${topic.title}`)
-    .join("\n");
+  const suggestions = topics.map((topic) => `- ${topic.title}`).join("\n");
 
   return (
     "I couldn't confidently match that question to my current notes. " +
@@ -215,7 +282,7 @@ function fallbackAnswer(): string {
     "**Try asking about one of these topics:**\n" +
     suggestions +
     "\n\nTip: Ask a specific question, such as " +
-    "\"What is the difference between authentication and authorization?\""
+    '"What is the difference between authentication and authorization?"'
   );
 }
 
