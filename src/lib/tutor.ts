@@ -1,6 +1,4 @@
-// Modular tutor provider. The default is an offline provider that answers from
-// the built-in topic notes. Replace `activeTutor` with a server-backed provider
-// later (keep API keys on the server) without changing the Tutor page.
+
 import { topics, type Topic } from "@/data/content";
 
 export type TutorMode = "simple" | "african" | "local";
@@ -24,244 +22,224 @@ const greetings: Record<LocalLanguage, string> = {
   Amharic: "ሰላም! አብረን እንማር።",
 };
 
-// Words that carry no topic meaning on their own.
 const STOPWORDS = new Set([
-  "what",
-  "who",
-  "when",
-  "where",
-  "which",
-  "why",
-  "how",
-  "does",
-  "did",
-  "can",
-  "could",
-  "should",
-  "would",
-  "tell",
-  "about",
-  "explain",
-  "describe",
-  "give",
-  "the",
-  "a",
-  "an",
-  "and",
-  "or",
-  "of",
-  "in",
-  "on",
-  "to",
-  "for",
-  "with",
-  "is",
-  "are",
-  "was",
-  "were",
-  "it",
-  "its",
-  "that",
-  "this",
-  "there",
-  "their",
-  "you",
-  "your",
-  "please",
-  "thanks",
-  "hello",
-  "study",
-  "buddy",
-  "difference",
-  "between",
-  "versus",
-  "example",
-  "examples",
-  "topic",
-  "azure",
-  "cloud",
+  "what", "who", "when", "where", "which", "why", "how",
+  "does", "did", "can", "could", "should", "would",
+  "tell", "about", "explain", "describe", "give",
+  "the", "a", "an", "and", "or", "of", "in", "on",
+  "to", "for", "with", "is", "are", "was", "were",
+  "it", "its", "that", "this", "there", "their",
+  "you", "your", "please", "thanks", "hello",
+  "study", "buddy", "topic", "azure", "cloud",
+  "me", "i", "my", "we", "our", "be", "as", "at",
+  "do", "if", "than", "then", "also", "really",
+  "work", "works", "working", "mean", "means",
+  "explain", "understand", "learn",
 ]);
 
-// Common abbreviations and casual phrasing mapped onto the study notes.
+// Expand common abbreviations and everyday wording into study terms.
 const SYNONYMS: { pattern: RegExp; extra: string }[] = [
-  { pattern: /\bmfa\b|two[- ]factor|2fa\b/, extra: "multi factor authentication" },
+  { pattern: /\bmfa\b|\b2fa\b|two.factor authentication/, extra: "multi factor authentication" },
+  { pattern: /\brbac\b/, extra: "role based access control permissions" },
   { pattern: /\bvms?\b|virtual machine/, extra: "virtual machines compute" },
-  { pattern: /\bserverless\b|\bfunctions?\b/, extra: "serverless functions compute" },
   { pattern: /\bsaas\b/, extra: "software as a service" },
   { pattern: /\bpaas\b/, extra: "platform as a service" },
-  { pattern: /\biaas\b|\bhaas\b/, extra: "infrastructure as a service" },
-  { pattern: /\bcapex\b/, extra: "capital expenditure upfront" },
-  { pattern: /\bopex\b/, extra: "operational expenditure running costs" },
-  { pattern: /\bzones?\b/, extra: "regions availability zones" },
-  {
-    pattern: /\bpricing\b|\bcosts?\b|\bexpensive\b|\bbilling\b/,
-    extra: "cost management pricing calculator pay as you go",
-  },
-  {
-    pattern:
-      /\bpermissions?\b|\baccess\b|\broles?\b|\bsign ?in\b|\blog ?in\b|\bpasswords?\b|\bid\b|\bidentity\b/,
-    extra: "identity access authentication authorization multi factor",
-  },
-  {
-    pattern: /\bbackups?\b|\bredundanc\w*|\bstorage\b|\bfiles\b/,
-    extra: "storage redundancy copies",
-  },
-  {
-    pattern: /\block(s|ing)?\b|\btags?\b|\bpolic(y|ies)\b|\brules\b|\bcompliance\b|\bgovernance\b/,
-    extra: "policies locks tags governance",
-  },
-  {
-    pattern: /\bdelet\w*|\bprevent\w*|\bprotect\w*|\baccident\w*|\bstop\b/,
-    extra: "locks prevent accidental deletion",
-  },
-  {
-    pattern: /\bpay\b|\bpayment|\bspending\b|\bbudget\w*|\bcharge/,
-    extra: "cost management pricing calculator pay as you go",
-  },
-  {
-    pattern: /\bmonitor\w*|\bdashboards?\b|\bportal\b|\bcli\b|\bcommand line\b|\btemplates?\b/,
-    extra: "monitoring management tools portal",
-  },
-  { pattern: /\bhybrid\b|\bpublic\b|\bprivate\b/, extra: "public private hybrid cloud models" },
-  {
-    pattern: /\bsecurity\b|\bresponsible\b|\bresponsibilit\w*/,
-    extra: "shared responsibility model security",
-  },
+  { pattern: /\biaas\b/, extra: "infrastructure as a service" },
+  { pattern: /\bcapex\b/, extra: "capital expenditure" },
+  { pattern: /\bopex\b/, extra: "operational expenditure" },
+  { pattern: /\b2fa\b|multi.factor/, extra: "authentication identity access" },
+  { pattern: /\bsso\b/, extra: "single sign on identity" },
+  { pattern: /\bvm\b/, extra: "virtual machine compute" },
+  { pattern: /\bvnet\b/, extra: "virtual network networking" },
+  { pattern: /\biac\b|\binfrastructure as code\b/, extra: "arm templates bicep repeatable deployment" },
+  { pattern: /\bpay as you go\b|\bpayg\b/, extra: "consumption based pricing" },
+  { pattern: /\bdata copies\b|\breplication\b/, extra: "storage redundancy" },
+  { pattern: /\bprevent deletion\b|\baccidental deletion\b/, extra: "resource locks CanNotDelete" },
+  { pattern: /\bcommand line\b/, extra: "azure cli powershell cloud shell" },
+  { pattern: /\boutage\b|\bplanned maintenance\b/, extra: "azure service health incidents" },
+  { pattern: /\bslow app\b|\bapplication performance\b/, extra: "azure monitor application insights" },
+  { pattern: /\bsecurity recommendations\b/, extra: "defender for cloud security posture" },
 ];
 
-const topicKeywords: Record<string, string[]> = {
-  "what-is-cloud": [
-    "cloud computing", "what is cloud", "cloud definition",
-    "cloud services", "cloud over internet",
-  ],
-  "shared-responsibility": [
-    "shared responsibility", "who is responsible",
-    "cloud security", "customer responsibility",
-    "provider responsibility",
-  ],
-  "pay-as-you-go": [
-    "pay as you go", "consumption based", "capex", "opex",
-    "only pay", "pay for what you use",
-  ],
-  "iaas-paas-saas": [
-    "iaas", "paas", "saas", "service models",
-    "infrastructure as a service", "platform as a service",
-    "software as a service",
-  ],
-  "cloud-models": [
-    "public cloud", "private cloud", "hybrid cloud",
-    "cloud deployment models",
-  ],
-  regions: [
-    "azure region", "availability zone", "availability zones",
-    "geographic area", "regional datacenter",
-  ],
-  compute: [
-    "virtual machine", "virtual machines", "container",
-    "containers", "serverless", "azure functions", "compute",
-  ],
-  storage: [
-    "cloud storage", "redundancy", "backup", "data copies",
-    "storage redundancy",
-  ],
-  identity: [
-    "authentication", "authorization", "identity",
-    "multi factor authentication", "mfa", "access control",
-  ],
-  "cost-management": [
-    "cost management", "pricing calculator", "azure cost",
-    "budget", "spending", "cost alerts",
-  ],
-  policy: [
-    "azure policy", "resource locks", "tags",
-    "governance rules", "prevent deletion",
-  ],
-  monitoring: [
-    "monitoring", "resource health", "performance",
-    "azure portal", "command line", "management tools",
-  ],
-};
+function normalize(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
-/** Find the study-note topic that best matches a question, or null. */
-export function findTopic(q: string): Topic | null {
-  const lower = q.toLowerCase();
-  let text = lower;
+function expandQuestion(question: string): string {
+  let expanded = normalize(question);
+
   for (const { pattern, extra } of SYNONYMS) {
-    if (pattern.test(lower)) text += ` ${extra}`;
+    if (pattern.test(question.toLowerCase())) {
+      expanded += ` ${normalize(extra)}`;
+    }
   }
 
-  const words = text
-    .split(/\W+/)
-    .filter((word) => word.length > 2 && !STOPWORDS.has(word));
+  return normalize(expanded);
+}
 
-  if (words.length === 0) return null;
+function getTopicText(topic: Topic): string {
+  return normalize([
+    topic.title,
+    topic.simple,
+    topic.example,
+    ...(topic.aliases ?? []),
+    ...(topic.keyPoints ?? []),
+    ...(topic.commonConfusions ?? []),
+    topic.checkQuestion ?? "",
+    topic.checkAnswer ?? "",
+  ].join(" "));
+}
+
+/** Find the study-note topic that best matches a question, or null. */
+export function findTopic(question: string): Topic | null {
+  const original = normalize(question);
+  const expanded = expandQuestion(question);
+
+  if (!original) return null;
+
+  const words = expanded
+    .split(" ")
+    .filter((word) => word.length > 2 && !STOPWORDS.has(word));
 
   let best: Topic | null = null;
   let bestScore = 0;
-  let secondScore = 0;
 
   for (const topic of topics) {
-    const title = topic.title.toLowerCase();
-    const body = `${topic.simple} ${topic.example}`.toLowerCase();
-    const keywordHits = topicKeywords[topic.id] ?? [];
+    const title = normalize(topic.title);
+    const aliases = (topic.aliases ?? []).map(normalize);
+    const allText = getTopicText(topic);
     let score = 0;
 
+    // Strongly reward an exact topic title or alias.
+    if (original === title) score += 12;
+    if (original.includes(title) && title.length > 0) score += 8;
+
+    for (const alias of aliases) {
+      if (!alias) continue;
+
+      if (original === alias) {
+        score += 10;
+      } else if (
+        alias.length > 3 &&
+        (` ${original} `).includes(` ${alias} `)
+      ) {
+        score += 7;
+      } else if (
+        alias.length > 3 &&
+        (` ${expanded} `).includes(` ${alias} `)
+      ) {
+        score += 5;
+      }
+    }
+
+    // Topic titles are more important than general explanatory text.
+    const titleWords = normalize(title).split(" ");
     for (const word of words) {
-      if (title.includes(word)) {
+      if (titleWords.includes(word)) {
         score += 3;
-      } else if (body.includes(word)) {
+      } else if (aliases.some((alias) => alias.split(" ").includes(word))) {
+        score += 2;
+      } else if (allText.split(" ").includes(word)) {
         score += 1;
       }
     }
 
-    for (const keyword of keywordHits) {
-      const normalizedKeyword = keyword.toLowerCase();
-      if (text.includes(normalizedKeyword)) {
-        score += normalizedKeyword.includes(" ") ? 3 : 1;
-      }
-    }
-
     if (score > bestScore) {
-      secondScore = bestScore;
       bestScore = score;
       best = topic;
-    } else if (score > secondScore) {
-      secondScore = score;
     }
   }
 
-  if (!best || bestScore < 3) return null;
-  void secondScore;
-  return best;
+  // Avoid guessing a topic when the question is too vague.
+  return best && bestScore >= 3 ? best : null;
 }
 
-/** Other topics in the same domain that could help. */
-function relatedTopics(t: Topic): string {
+function relatedTopics(topic: Topic): string {
   return topics
-    .filter((x) => x.domain === t.domain && x.id !== t.id)
-    .map((x) => x.title)
+    .filter((item) => item.domain === topic.domain && item.id !== topic.id)
     .slice(0, 2)
+    .map((item) => item.title)
     .join(", ");
 }
 
+function buildAnswer(topic: Topic, mode: TutorMode): string {
+  let answer = `**${topic.title}**\n\n${topic.simple}`;
+
+  if (mode === "african") {
+    answer += `\n\n🌍 **Real-life example:** ${topic.example}`;
+  } else {
+    answer += `\n\n💡 **Example:** ${topic.example}`;
+  }
+
+  if (topic.keyPoints?.length) {
+    answer += "\n\n**Key points to remember:**";
+    answer += topic.keyPoints.map((point) => `\n- ${point}`).join("");
+  }
+
+  if (topic.commonConfusions?.length) {
+    answer += "\n\n**Common exam traps:**";
+    answer += topic.commonConfusions
+      .map((point) => `\n- ${point}`)
+      .join("");
+  }
+
+  if (topic.checkQuestion) {
+    answer += `\n\n🧠 **Quick self-check:** ${topic.checkQuestion}`;
+
+    if (topic.checkAnswer) {
+      answer += `\n\n**Answer:** ${topic.checkAnswer}`;
+    }
+  }
+
+  const related = relatedTopics(topic);
+
+  if (related) {
+    answer += `\n\n**You can also explore:** ${related}.`;
+  }
+
+  return answer;
+}
+
+function fallbackAnswer(): string {
+  const suggestions = topics
+    .map((topic) => `- ${topic.title}`)
+    .join("\n");
+
+  return (
+    "I couldn't confidently match that question to my current notes. " +
+    "I'm an offline study tutor, so I don't want to guess and teach you the wrong thing.\n\n" +
+    "**Try asking about one of these topics:**\n" +
+    suggestions +
+    "\n\nTip: Ask a specific question, such as " +
+    "\"What is the difference between authentication and authorization?\""
+  );
 }
 
 export const offlineTutor: TutorProvider = {
   async ask({ question, mode, language }) {
-    await new Promise((r) => setTimeout(r, 400));
-    const t = findTopic(question);
-    if (!t)
-      return `I don't have notes on that yet. I can explain topics like:\n${topics
-        .map((x) => `- ${x.title}`)
-        .join("\n")}\n\nTry asking about one of those in your own words.`;
-    let out = `**${t.title}**\n\n${t.simple}`;
-    if (mode === "african") out += `\n\n🌍 Real-life example: ${t.example}`;
-    else out += `\n\n💬 In everyday life: ${t.example}`;
-    const related = relatedTopics(t);
-    if (related) out += `\n\nRelated topics you can ask me about: ${related}.`;
-    if (mode === "local" && language)
-      out = `${greetings[language]}\n\n${out}\n\n_Full ${language} explanations will be available once the AI tutor is connected. The key idea above is in simple English for now._`;
-    return out;
+    // Small delay to keep the existing chat interaction natural.
+    await new Promise((resolve) => setTimeout(resolve, 300));
+
+    const topic = findTopic(question);
+
+    if (!topic) {
+      return fallbackAnswer();
+    }
+
+    let answer = buildAnswer(topic, mode);
+
+    if (mode === "local" && language) {
+      answer =
+        `${greetings[language]}\n\n${answer}\n\n` +
+        `_This offline version currently provides the main explanation in English. ` +
+        `Full ${language} explanations require a language-capable AI service._`;
+    }
+
+    return answer;
   },
 };
 
