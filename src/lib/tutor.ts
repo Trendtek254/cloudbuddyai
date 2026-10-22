@@ -49,6 +49,8 @@ const SYNONYMS: { pattern: RegExp; extra: string }[] = [
   { pattern: /\bpermissions?\b|\baccess\b|\broles?\b|\bsign ?in\b|\blog ?in\b|\bpasswords?\b|\bid\b|\bidentity\b/, extra: "identity access authentication authorization multi factor" },
   { pattern: /\bbackups?\b|\bredundanc\w*|\bstorage\b|\bfiles\b/, extra: "storage redundancy copies" },
   { pattern: /\block(s|ing)?\b|\btags?\b|\bpolic(y|ies)\b|\brules\b|\bcompliance\b|\bgovernance\b/, extra: "policies locks tags governance" },
+  { pattern: /\bdelet\w*|\bprevent\w*|\bprotect\w*|\baccident\w*|\bstop\b/, extra: "locks prevent accidental deletion" },
+  { pattern: /\bpay\b|\bpayment|\bspending\b|\bbudget\w*|\bcharge/, extra: "cost management pricing calculator pay as you go" },
   { pattern: /\bmonitor\w*|\bdashboards?\b|\bportal\b|\bcli\b|\bcommand line\b|\btemplates?\b/, extra: "monitoring management tools portal" },
   { pattern: /\bhybrid\b|\bpublic\b|\bprivate\b/, extra: "public private hybrid cloud models" },
   { pattern: /\bsecurity\b|\bresponsible\b|\bresponsibilit\w*/, extra: "shared responsibility model security" },
