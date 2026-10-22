@@ -34,6 +34,7 @@ function Practice() {
   const [picked, setPicked] = useState<number | null>(null);
   const [done, setDone] = useState(false);
   const q = questions[idx];
+  if (!q) return null;
 
   function next() {
     const all = [...answers, picked!];
@@ -67,7 +68,7 @@ function Practice() {
     <AppShell>
       <PageHeader title="Practice" subtitle="Original practice questions based on the public skills outline — not real exam questions." />
       <div className="mx-auto max-w-2xl">
-        <div className="mb-2 flex justify-between text-sm text-muted-foreground"><span>Question {idx + 1} of {questions.length}</span><span>Score {answers.filter((a, i) => a === questions[i].answer).length}</span></div>
+        <div className="mb-2 flex justify-between text-sm text-muted-foreground"><span>Question {idx + 1} of {questions.length}</span><span>Score {answers.filter((a, i) => a === questions[i]?.answer).length}</span></div>
         <ProgressBar value={(idx / questions.length) * 100} />
         <div className="mt-6 rounded-2xl border border-border bg-card p-6 shadow-card">
           <span className="rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-secondary-foreground">{domains.find((d) => d.id === q.domain)!.title} · {q.topic}</span>

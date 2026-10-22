@@ -83,7 +83,7 @@ function Tutor() {
           <button disabled={busy} className="rounded-full bg-accent px-5 font-semibold text-accent-foreground disabled:opacity-50">Send</button>
         </form>
       </div>
-      <p className="mt-3 text-xs text-muted-foreground">Demo mode: answers come from built-in study notes. A live AI connection can be added later.</p>
+      <p className="mt-3 text-xs text-muted-foreground">Offline demo tutor: answers come from the built-in study notes on this page — there is no live AI connection yet.</p>
     </AppShell>
   );
 }

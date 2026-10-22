@@ -17,6 +17,6 @@ describe("quiz", () => {
     const answers = questions.map((q, i) => (i === 0 ? (q.answer + 1) % 4 : q.answer));
     const r = scoreQuiz(answers);
     expect(r.score).toBe(questions.length - 1);
-    expect(r.missedTopics).toEqual([questions[0].topic]);
+    expect(r.missedTopics).toEqual([questions[0]?.topic]);
   });
 });
