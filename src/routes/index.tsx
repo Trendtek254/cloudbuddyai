@@ -60,7 +60,7 @@ function Dashboard() {
   );
 }
 
-function Stat({ label, value, pct }: { label: string; value: string; pct?: number }) {
+function Stat({ label, value, pct }: { label: string; value: string; pct?: number | undefined }) {
   return (
     <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
       <p className="text-sm text-muted-foreground">{label}</p>
